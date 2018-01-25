@@ -10,7 +10,9 @@ package k2m77.test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -44,24 +46,51 @@ public abstract class WordReplaceTool {
 	 * @param toFile Target file.
 	 * @throws Exception
 	 */
-	public static void replace(Map<String, String> strMap, File frFile, File toFile) throws Exception {
-		try (InputStream is = new FileInputStream(frFile)) {
-			try (XWPFDocument doc = new XWPFDocument(is)) {
-				replace(strMap, doc);
-				try (OutputStream out = new FileOutputStream(toFile)) {
-					doc.write(out);
-				} catch (Exception e) {
-					System.out.println(e);
+	public static void replace(Map<String, String> strMap, File frFile, File toFile) {
+		InputStream is = null;
+		try {
+			is = new FileInputStream(frFile);
+
+			OutputStream os = null;
+			try {
+				os = new FileOutputStream(toFile);
+
+				XWPFDocument doc = null;
+				try {
+					doc = new XWPFDocument(is);
+					replace(strMap, doc);
+					doc.write(os);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				} finally {
+					if (doc != null) {
+						try {
+							doc.close();
+						} catch (IOException e) {
+							throw new RuntimeException(e);
+						}
+					}
 				}
-			} catch (Exception e) {
-				System.out.println(e);
+			} catch (FileNotFoundException e) {
+				throw new RuntimeException("Cannot find output file.", e);
+			} finally {
+				if (os != null) {
+					try {
+						os.close();
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+				}
 			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		try (InputStream is = new FileInputStream(toFile)) {
-			try (XWPFDocument doc = new XWPFDocument(is)) {
-				doc.getComments();
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
 			}
 		}
 	}
