@@ -30,8 +30,8 @@ public class K2m77Result {
 	}
 
 	/**
-	 * @param i
-	 * @param colNameEnInput
+	 * @param i index from 0
+	 * @param colNameEnInput column name
 	 * @return object value
 	 */
 	public Object getObject(int i, String colNameEnInput) {
@@ -41,8 +41,8 @@ public class K2m77Result {
 	}
 
 	/**
-	 * @param i
-	 * @param colNameEnInput
+	 * @param i index from 0
+	 * @param colNameEnInput column name
 	 * @return string value
 	 */
 	public String getString(int i, String colNameEnInput) {

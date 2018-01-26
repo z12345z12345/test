@@ -28,7 +28,7 @@ public class K2m77Connection implements AutoCloseable {
 				V con = (V) Class.forName(param.getConClsName()).newInstance();
 				con.connect(param);
 				_cons.put(param, con);
-				
+
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -56,7 +56,7 @@ public class K2m77Connection implements AutoCloseable {
 
 	/* 连接DM数据库* @throws SQLException 异常 */
 	/**
-	 * @param param
+	 * @param param parameters
 	 */
 	public void connect(K2m77ConnectionParameter<?> param) {
 		try {
@@ -79,7 +79,7 @@ public class K2m77Connection implements AutoCloseable {
 	}
 
 	/**
-	 * @param tablename
+	 * @param tablename table name
 	 */
 	public void dropWhenExists(String tablename) {
 		try (Statement st = this.conn.createStatement()) {
@@ -97,7 +97,7 @@ public class K2m77Connection implements AutoCloseable {
 	}
 
 	/**
-	 * @param string
+	 * @param string sql string
 	 */
 	public void execute(String string) {
 		try (Statement st = this.conn.createStatement()) {
@@ -108,7 +108,7 @@ public class K2m77Connection implements AutoCloseable {
 	}
 
 	/**
-	 * @param string
+	 * @param string sql string
 	 * @return update result count
 	 */
 	public int executeUpdate(String string) {
@@ -120,8 +120,8 @@ public class K2m77Connection implements AutoCloseable {
 	}
 
 	/**
-	 * @param string
-	 * @param param
+	 * @param string sql string
+	 * @param param parameters
 	 */
 	public void executeUpdate(String string, List<Object> param) {
 		try (PreparedStatement pst = this.conn.prepareStatement(string)) {
@@ -136,7 +136,7 @@ public class K2m77Connection implements AutoCloseable {
 	}
 
 	/**
-	 * @param sql
+	 * @param sql sql string
 	 * @return select result data
 	 */
 	public K2m77Result selectStringData(String sql) {

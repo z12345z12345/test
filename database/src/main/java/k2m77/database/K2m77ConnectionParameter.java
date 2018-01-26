@@ -7,7 +7,7 @@ import java.util.Properties;
 /**
  * @author huangxm
  *
- * @param <T>
+ * @param <T> connction type
  */
 public class K2m77ConnectionParameter<T extends K2m77Connection> {
 
@@ -24,27 +24,27 @@ public class K2m77ConnectionParameter<T extends K2m77Connection> {
 	private String key;
 
 	/**
-	 * @param jdbc
-	 * @param type
-	 * @param ip
-	 * @param port
-	 * @param db
-	 * @param userName
-	 * @param password
+	 * @param jdbc jdbc string
+	 * @param type type string
+	 * @param ip ip string
+	 * @param port port string
+	 * @param db db name
+	 * @param userName user name
+	 * @param password password
 	 */
 	public K2m77ConnectionParameter(String jdbc, String type, String ip, String port, String db, String userName, String password) {
 		this(jdbc, type, ip, port, db, userName, password, null);
 	}
 
 	/**
-	 * @param jdbc
-	 * @param type
-	 * @param ip
-	 * @param port
-	 * @param db
-	 * @param userName
-	 * @param password
-	 * @param params
+	 * @param jdbc jdbc string
+	 * @param type type string
+	 * @param ip ip string
+	 * @param port port string
+	 * @param db db name
+	 * @param userName user name
+	 * @param password password
+	 * @param params parameters
 	 */
 	public K2m77ConnectionParameter(String jdbc, String type, String ip, String port, String db, String userName, String password, Properties params) {
 
