@@ -3,7 +3,6 @@ package k2m77.test2;
 import java.util.logging.Level;
 
 import org.apache.commons.logging.LogFactory;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 
@@ -51,8 +50,7 @@ public class AppTest extends TestCase {
 		logs.enable(LogType.PROFILER, Level.OFF);
 		logs.enable(LogType.CLIENT, Level.OFF);
 
-		WebDriver driver = null;
 		BrowserType browser = BrowserType.ie64;
-		Browser.show(driver, browser);
+		Browser.show(browser);
 	}
 }

@@ -20,8 +20,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class Browser {
-	
-	public static void show(WebDriver driver, BrowserType browser) {
+
+	public static void show(BrowserType browser) {
+		WebDriver driver = null;
 		try {
 			switch (browser) {
 			case ie64: {
@@ -64,10 +65,10 @@ public class Browser {
 				driver = new HtmlUnitDriver();
 				break;
 			}
-//			for (String logtype : driver.manage().logs().getAvailableLogTypes()) {
-//				System.out.println(logtype);
-//				driver.manage().logs().get(logtype).filter(Level.OFF);
-//			}
+			// for (String logtype : driver.manage().logs().getAvailableLogTypes()) {
+			// System.out.println(logtype);
+			// driver.manage().logs().get(logtype).filter(Level.OFF);
+			// }
 
 			driver.navigate().to("https://www.baidu.com");
 			driver.manage().window().maximize();
@@ -80,9 +81,9 @@ public class Browser {
 			driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 			if (driver instanceof RemoteWebDriver) {
 				byte[] dd = ((RemoteWebDriver) driver).getScreenshotAs(OutputType.BYTES);
-				FileOutputStream fos = new FileOutputStream("d:\\temp\\1.png");
-				fos.write(dd);
-				fos.close();
+				try (FileOutputStream fos = new FileOutputStream("d:\\temp\\1.png")) {
+					fos.write(dd);
+				}
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
