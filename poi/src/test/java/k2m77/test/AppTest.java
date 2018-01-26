@@ -8,7 +8,7 @@ import java.util.Map;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import k2m77.poi.WordReplaceTool;
+import k2m77.poi.word.WordReplaceTool;
 
 /**
  * Unit test for simple App.
