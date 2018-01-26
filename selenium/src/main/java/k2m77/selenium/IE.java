@@ -23,7 +23,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class IE {
 	
-	public static void show(LoggingPreferences logs, WebDriver driver, Browser browser) {
+	public static void show(LoggingPreferences logs, WebDriver driver, BrowserType browser) {
 		try {
 			switch (browser) {
 			case ie64: {

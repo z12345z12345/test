@@ -10,7 +10,7 @@ import org.openqa.selenium.logging.LoggingPreferences;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import k2m77.selenium.Browser;
+import k2m77.selenium.BrowserType;
 import k2m77.selenium.IE;
 
 /**
@@ -52,7 +52,7 @@ public class AppTest extends TestCase {
 		logs.enable(LogType.CLIENT, Level.OFF);
 
 		WebDriver driver = null;
-		Browser browser = Browser.ie64;
+		BrowserType browser = BrowserType.ie64;
 		IE.show(logs, driver, browser);
 	}
 }
