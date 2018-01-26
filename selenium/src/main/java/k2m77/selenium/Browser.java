@@ -21,7 +21,7 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-public class IE {
+public class Browser {
 	
 	public static void show(LoggingPreferences logs, WebDriver driver, BrowserType browser) {
 		try {
