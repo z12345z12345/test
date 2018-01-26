@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +45,18 @@ public abstract class WordReplaceTool {
 	 * @param toFile Target file.
 	 * @throws Exception
 	 */
+	public static void replace(Map<String, String> strMap, String frFileName, String toFileName) {
+		replace(strMap, frFileName == null ? null : new File(frFileName), toFileName == null ? null : new File(toFileName));
+	}
+
+	/**
+	 * Replace Tool of MS Word.
+	 * 
+	 * @param strMap Replace strings.
+	 * @param frFile Source file.
+	 * @param toFile Target file.
+	 * @throws Exception
+	 */
 	public static void replace(Map<String, String> strMap, File frFile, File toFile) {
 		InputStream is = null;
 		try {
@@ -54,25 +65,9 @@ public abstract class WordReplaceTool {
 			OutputStream os = null;
 			try {
 				os = new FileOutputStream(toFile);
-
-				XWPFDocument doc = null;
-				try {
-					doc = new XWPFDocument(is);
-					replace(strMap, doc);
-					doc.write(os);
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				} finally {
-					if (doc != null) {
-						try {
-							doc.close();
-						} catch (IOException e) {
-							throw new RuntimeException(e);
-						}
-					}
-				}
+				replace(strMap, is, os);
 			} catch (FileNotFoundException e) {
-				throw new RuntimeException("Cannot find output file.", e);
+				throw new RuntimeException(e);
 			} finally {
 				if (os != null) {
 					try {
@@ -99,9 +94,48 @@ public abstract class WordReplaceTool {
 	 * Replace Tool of MS Word.
 	 * 
 	 * @param strMap Replace strings.
+	 * @param frFile Source file.
+	 * @param toFile Target file.
+	 * @throws Exception
+	 */
+	public static void replace(Map<String, String> strMap, InputStream is, OutputStream os) {
+		XWPFDocument doc = null;
+		try {
+			doc = new XWPFDocument(is);
+			replace(strMap, doc);
+			doc.write(os);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (doc != null) {
+				try {
+					doc.close();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Replace Tool of MS Word.
+	 * 
+	 * @param strMap Replace strings.
 	 * @param doc Replace document.
 	 */
 	public static void replace(Map<String, String> strMap, XWPFDocument doc) {
+		for (Map.Entry<String, String> entry : strMap.entrySet()) {
+			replace(entry.getKey(), entry.getValue(), doc);
+		}
+	}
+
+	/**
+	 * Replace Tool of MS Word.
+	 * 
+	 * @param strMap Replace strings.
+	 * @param doc Replace document.
+	 */
+	public static void replace(String sourceStr, String targetStr, XWPFDocument doc) {
 		List<IBody> bodyList = new ArrayList<IBody>();
 		bodyList.add(doc);
 		for (XWPFTable XWPFTable : doc.getTables()) {
@@ -117,63 +151,55 @@ public abstract class WordReplaceTool {
 		for (XWPFFooter XWPFFooter : doc.getFooterList()) {
 			bodyList.add(XWPFFooter);
 		}
-		Map<String, List<XWPFParagraph>> XWPFParagraphMap = new HashMap<String, List<XWPFParagraph>>();
-		for (Map.Entry<String, String> entry : strMap.entrySet()) {
-			List<XWPFParagraph> XWPFParagraphList = new ArrayList<XWPFParagraph>();
-			for (IBody body : bodyList) {
-				for (XWPFParagraph XWPFParagraph : body.getParagraphs()) {
-					if (XWPFParagraph.getText().indexOf(entry.getKey()) < 0) {
+		List<XWPFParagraph> XWPFParagraphList = new ArrayList<XWPFParagraph>();
+		for (IBody body : bodyList) {
+			for (XWPFParagraph XWPFParagraph : body.getParagraphs()) {
+				if (XWPFParagraph.getText().indexOf(sourceStr) < 0) {
+					continue;
+				}
+				XWPFParagraphList.add(XWPFParagraph);
+			}
+		}
+		for (XWPFParagraph XWPFParagraph : XWPFParagraphList) {
+			String s = XWPFParagraph.getText();
+			List<Integer> strIdxList = new ArrayList<Integer>();
+			{
+				int idx = -1;
+				while ((idx = s.indexOf(sourceStr, idx + 1)) >= 0) {
+					strIdxList.add(Integer.valueOf(idx));
+					idx += sourceStr.length();
+				}
+			}
+			int curNext = s.length();
+			int runLast = XWPFParagraph.getRuns().size() - 1;
+			IdxLoop: for (int i = strIdxList.size() - 1; i >= 0; i--) {
+				int idxSta = strIdxList.get(i).intValue();
+				int idxEnd = idxSta + sourceStr.length();
+				for (int idxRun = runLast; idxRun >= 0;) {
+					XWPFRun XWPFRun = XWPFParagraph.getRuns().get(idxRun);
+					String runStr = XWPFRun.text();
+					int curSta = curNext - runStr.length();
+					int curEnd = curNext;
+					curNext = curSta;
+					idxRun--;
+					if (idxEnd <= curSta) {// idxSta,idxEnd,curSta,curEnd
 						continue;
 					}
-					XWPFParagraphList.add(XWPFParagraph);
+					// if (curEnd <= idxSta) {// curSta,curEnd,idxSta,idxEnd
+					// continue;
+					// }
+					XWPFRun.setText(runStr.substring(0, Math.max(idxSta - curSta, 0)));
+					XWPFRun.setText(XWPFRun.text() + (idxSta >= curSta ? targetStr : ""));
+					XWPFRun.setText(XWPFRun.text() + runStr.substring(runStr.length() - Math.max(curEnd - idxEnd, 0), runStr.length()), 0);
+					if (idxSta > curSta) {
+						curNext = curSta + XWPFRun.text().length();
+						runLast = idxRun + 1;
+						continue IdxLoop;
+					}
+					// System.out.println(runStr + "=>" + XWPFRun.text());
 				}
 			}
-			XWPFParagraphMap.put(entry.getKey(), XWPFParagraphList);
-		}
-		for (Map.Entry<String, List<XWPFParagraph>> entry : XWPFParagraphMap.entrySet()) {
-			for (XWPFParagraph XWPFParagraph : entry.getValue()) {
-				String s = XWPFParagraph.getText();
-				List<Integer> strIdxList = new ArrayList<Integer>();
-				{
-					int idx = -1;
-					while ((idx = s.indexOf(entry.getKey(), idx + 1)) >= 0) {
-						strIdxList.add(idx);
-						idx += entry.getKey().length();
-					}
-				}
-				int curNext = s.length();
-				for (int i = strIdxList.size() - 1; i >= 0; i--) {
-					int idxSta = strIdxList.get(i);
-					int idxEnd = idxSta + entry.getKey().length();
-					for (int idxRun = XWPFParagraph.getRuns().size() - 1; idxRun >= 0;) {
-						XWPFRun XWPFRun = XWPFParagraph.getRuns().get(idxRun);
-						String runStr = XWPFRun.text();
-						int curSta = curNext - runStr.length();
-						int curEnd = curNext;
-						curNext = curSta;
-						idxRun--;
-						if (idxEnd <= curSta) {// idxSta,idxEnd,curSta,curEnd
-							continue;
-						}
-						if (curEnd <= idxSta) {// curSta,curEnd,idxSta,idxEnd
-							continue;
-						}
-						XWPFRun.setText(runStr.substring(0, Math.max(idxSta - curSta, 0))
-								+ (idxSta >= curSta && idxSta <= curEnd ? strMap.get(entry.getKey()) : "")
-								+ runStr.substring(runStr.length() - Math.max(curEnd - idxEnd, 0), runStr.length()), 0);
-						// System.out.println(runStr + "=>" + XWPFRun.text());
-					}
-				}
-				// System.out.println(s + "=>" + XWPFParagraph.getText());
-			}
+			// System.out.println(s + "=>" + XWPFParagraph.getText());
 		}
 	}
-
-	/**
-	 * Do nothing.
-	 */
-	private WordReplaceTool() {
-		// Do nothing.
-	}
-
 }
