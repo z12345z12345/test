@@ -43,7 +43,6 @@ public abstract class WordReplaceTool {
 	 * @param strMap Replace strings.
 	 * @param frFileName Source file name.
 	 * @param toFileName Target file name.
-	 * @throws Exception
 	 */
 	public static void replace(Map<String, String> strMap, String frFileName, String toFileName) {
 		replace(strMap, frFileName == null ? null : new File(frFileName), toFileName == null ? null : new File(toFileName));
@@ -55,7 +54,6 @@ public abstract class WordReplaceTool {
 	 * @param strMap Replace strings.
 	 * @param frFile Source file.
 	 * @param toFile Target file.
-	 * @throws Exception
 	 */
 	public static void replace(Map<String, String> strMap, File frFile, File toFile) {
 		InputStream is = null;
@@ -96,7 +94,6 @@ public abstract class WordReplaceTool {
 	 * @param strMap Replace strings.
 	 * @param is Source file stream.
 	 * @param os Target file stream.
-	 * @throws Exception
 	 */
 	public static void replace(Map<String, String> strMap, InputStream is, OutputStream os) {
 		XWPFDocument doc = null;

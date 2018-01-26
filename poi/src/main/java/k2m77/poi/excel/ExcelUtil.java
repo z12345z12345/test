@@ -13,8 +13,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 public class ExcelUtil {
 
 	/**
-	 * @param sheet
-	 * @param lc
+	 * @param sheet Excel Sheet
+	 * @param lc Cell location
 	 * @return Content of cell
 	 */
 	public static String getString(Sheet sheet, Loc lc) {
@@ -28,10 +28,11 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * @param sheet
-	 * @param lc
-	 * @param cls
+	 * @param sheet Excel sheet
+	 * @param lc cell location
+	 * @param cls return type class object
 	 * @return Content of cell
+	 * @param <V> return type class
 	 */
 	public static <V> V getText(Sheet sheet, Loc lc, Class<V> cls) {
 		if (lc == null) {
@@ -81,7 +82,7 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * @param s
+	 * @param s location string
 	 * @return location
 	 */
 	public static Loc loc(String s) {

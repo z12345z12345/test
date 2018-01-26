@@ -4,9 +4,10 @@ package k2m77.poi.excel;
  * @author huangxm
  */
 public class Loc {
+
 	/**
-	 * @param r
-	 * @param c
+	 * @param r row
+	 * @param c column
 	 */
 	public Loc(int r, int c) {
 		this.row = r;
@@ -17,7 +18,7 @@ public class Loc {
 	}
 
 	/**
-	 * @param s
+	 * @param s location by string
 	 */
 	public Loc(String s) {
 		char[] rowChars = s.replaceAll("[0-9]+", "").toUpperCase().toCharArray();
@@ -35,7 +36,7 @@ public class Loc {
 	int rowbase;
 
 	/**
-	 * @param r
+	 * @param r row count to add
 	 * @return location
 	 */
 	public Loc addRow(int r) {
@@ -44,7 +45,7 @@ public class Loc {
 	}
 
 	/**
-	 * @param c
+	 * @param c column count to add
 	 * @return location
 	 */
 	public Loc addCol(int c) {
@@ -60,10 +61,10 @@ public class Loc {
 	}
 
 	/**
-	 * @param row
+	 * @param col column number
 	 */
-	public void setCol(int row) {
-		this.col = row;
+	public void setCol(int col) {
+		this.col = col;
 	}
 
 	/**
@@ -74,7 +75,7 @@ public class Loc {
 	}
 
 	/**
-	 * @param row
+	 * @param row row number
 	 * @return location
 	 */
 	public Loc setRow(int row) {
