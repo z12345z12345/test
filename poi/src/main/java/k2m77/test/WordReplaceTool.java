@@ -41,8 +41,8 @@ public abstract class WordReplaceTool {
 	 * Replace Tool of MS Word.
 	 * 
 	 * @param strMap Replace strings.
-	 * @param frFile Source file.
-	 * @param toFile Target file.
+	 * @param frFileName Source file name.
+	 * @param toFileName Target file name.
 	 * @throws Exception
 	 */
 	public static void replace(Map<String, String> strMap, String frFileName, String toFileName) {
@@ -94,8 +94,8 @@ public abstract class WordReplaceTool {
 	 * Replace Tool of MS Word.
 	 * 
 	 * @param strMap Replace strings.
-	 * @param frFile Source file.
-	 * @param toFile Target file.
+	 * @param is Source file stream.
+	 * @param os Target file stream.
 	 * @throws Exception
 	 */
 	public static void replace(Map<String, String> strMap, InputStream is, OutputStream os) {
@@ -132,7 +132,8 @@ public abstract class WordReplaceTool {
 	/**
 	 * Replace Tool of MS Word.
 	 * 
-	 * @param strMap Replace strings.
+	 * @param sourceStr Replace source string.
+	 * @param targetStr Replace target string.
 	 * @param doc Replace document.
 	 */
 	public static void replace(String sourceStr, String targetStr, XWPFDocument doc) {
