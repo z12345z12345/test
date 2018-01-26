@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
@@ -17,29 +16,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class IE {
-	public static void main(String[] args) {
-		{
-			LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
-			java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
-			java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.OFF);
-			LogFactory.getFactory().setAttribute("org", "org.apache.commons.logging.impl.NoOpLog");
-		}
-		LoggingPreferences logs = new LoggingPreferences();
-		logs.enable(LogType.BROWSER, Level.OFF);
-		logs.enable(LogType.SERVER, Level.OFF);
-		logs.enable(LogType.DRIVER, Level.OFF);
-		logs.enable(LogType.PROFILER, Level.OFF);
-		logs.enable(LogType.CLIENT, Level.OFF);
-
-		WebDriver driver = null;
-		Browser browser = Browser.ie64;
+	
+	public static void show(LoggingPreferences logs, WebDriver driver, Browser browser) {
 		try {
 			switch (browser) {
 			case ie64: {
