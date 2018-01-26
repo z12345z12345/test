@@ -19,8 +19,15 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+/**
+ * @author huangxm
+ *
+ */
 public class Browser {
 
+	/**
+	 * @param browser
+	 */
 	public static void show(BrowserType browser) {
 		WebDriver driver = null;
 		try {
