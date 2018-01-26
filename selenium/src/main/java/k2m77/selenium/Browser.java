@@ -2,7 +2,6 @@ package k2m77.selenium;
 
 import java.io.FileOutputStream;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -16,14 +15,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class Browser {
 	
-	public static void show(LoggingPreferences logs, WebDriver driver, BrowserType browser) {
+	public static void show(WebDriver driver, BrowserType browser) {
 		try {
 			switch (browser) {
 			case ie64: {
@@ -43,7 +41,7 @@ public class Browser {
 			}
 			case chrome:
 				ChromeOptions option = new ChromeOptions();
-				option.setCapability(CapabilityType.LOGGING_PREFS, logs);
+				// option.setCapability(CapabilityType.LOGGING_PREFS, logs);
 				option.setCapability("marionette", true);
 				option.setCapability(CapabilityType.ENABLE_PROFILING_CAPABILITY, false);
 				System.setProperty("webdriver.chrome.driver", "C:\\Programs\\chromedriver_win32\\chromedriver.exe");
@@ -55,9 +53,9 @@ public class Browser {
 				break;
 			case firefox:
 				System.setProperty("webdriver.gecko.driver", "C:\\Programs\\MicrosoftWebDriver16299\\MicrosoftWebDriver.exe"); {
-				System.out.println(logs.getEnabledLogTypes());
+				// System.out.println(logs.getEnabledLogTypes());
 				DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-				capabilities.setCapability(CapabilityType.LOGGING_PREFS, logs);
+				// capabilities.setCapability(CapabilityType.LOGGING_PREFS, logs);
 				capabilities.setCapability("marionette", true);
 			}
 				driver = new FirefoxDriver();
@@ -66,10 +64,10 @@ public class Browser {
 				driver = new HtmlUnitDriver();
 				break;
 			}
-			for (String logtype : driver.manage().logs().getAvailableLogTypes()) {
-				System.out.println(logtype);
-				driver.manage().logs().get(logtype).filter(Level.OFF);
-			}
+//			for (String logtype : driver.manage().logs().getAvailableLogTypes()) {
+//				System.out.println(logtype);
+//				driver.manage().logs().get(logtype).filter(Level.OFF);
+//			}
 
 			driver.navigate().to("https://www.baidu.com");
 			driver.manage().window().maximize();
@@ -86,8 +84,8 @@ public class Browser {
 				fos.write(dd);
 				fos.close();
 			}
-		} catch (Throwable th) {
-			th.printStackTrace();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		} finally {
 			if (driver != null) {
 				driver.quit();

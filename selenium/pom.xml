@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>k2m77</groupId>
-	<artifactId>test2</artifactId>
+	<artifactId>k2m77-selenium</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>test2</name>
+	<name>test</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -32,7 +32,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>

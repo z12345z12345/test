@@ -10,8 +10,8 @@ import org.openqa.selenium.logging.LoggingPreferences;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import k2m77.selenium.BrowserType;
 import k2m77.selenium.Browser;
+import k2m77.selenium.BrowserType;
 
 /**
  * Unit test for simple App.
@@ -53,6 +53,6 @@ public class AppTest extends TestCase {
 
 		WebDriver driver = null;
 		BrowserType browser = BrowserType.ie64;
-		Browser.show(logs, driver, browser);
+		Browser.show(driver, browser);
 	}
 }

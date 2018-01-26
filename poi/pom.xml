@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>k2m77</groupId>
-	<artifactId>poi</artifactId>
+	<artifactId>k2m77-poi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-examples</artifactId>
-			<version>3.16</version>
+			<version>3.17</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -27,7 +27,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -41,5 +40,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
