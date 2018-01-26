@@ -1,4 +1,4 @@
-package k2m77.test2;
+package k2m77.selenium;
 
 import java.io.FileOutputStream;
 import java.util.concurrent.TimeUnit;
@@ -24,10 +24,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class IE {
-	enum Browser {
-		ie64, ie32, chrome, edge, firefox, HtmlUnit;
-	}
-
 	public static void main(String[] args) {
 		{
 			LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
